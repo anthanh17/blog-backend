@@ -1,0 +1,18 @@
+version: "2"
+services:
+    docker-app-demo:
+        container_name: backend
+        build: .
+        user: "1000:1000"
+        volumes:
+            - ./src:/app
+        ports:
+            - "3306:3306"
+        environment:
+            - PORT=3306
+            # `mongo` is the `service name` defined in persistent stack
+            - MONGO_URI=mysql://localhost:3306/test 
+        networks:
+            - common
+networks:
+  common:
