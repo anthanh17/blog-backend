@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker-compose run --rm docker-app-demo yarn init 
+docker-compose run --rm docker-backend yarn init 

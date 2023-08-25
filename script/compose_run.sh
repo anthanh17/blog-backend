@@ -8,4 +8,5 @@
 # EG:
 # $ script/compose_run.sh yarn add lodash
 
-docker-compose run --rm docker-app-demo "$@"
+# docker-compose run --rm docker-backend
+docker-compose up
