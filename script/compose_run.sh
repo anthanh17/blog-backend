@@ -9,4 +9,4 @@
 # $ script/compose_run.sh yarn add lodash
 
 # docker-compose run --rm docker-backend
-docker-compose up
+docker-compose up -p blog up -p
