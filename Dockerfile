@@ -1,10 +1,6 @@
 FROM node:18-alpine
 
-EXPOSE 9090
-
-WORKDIR /src
-
-# COPY ["package.json", "package-lock.json*", "./"]
+WORKDIR /app
 
 COPY package*.json ./
 
@@ -26,4 +22,6 @@ COPY . .
 
 # CMD ["npm", "run", "build"]
 
-CMD ["node", "server.js"]
+EXPOSE 9090
+
+CMD ["nodemon", "server.js"]
