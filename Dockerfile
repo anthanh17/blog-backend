@@ -10,12 +10,9 @@ RUN npm install
 
 RUN npm install -g @babel/core @babel/cli
 
-COPY ./src .
-
-# RUN npm run build-src
-
-# CMD ["npm", "run", "build"]
+COPY . .
 
 EXPOSE 9000
 
-CMD ["node", "server.js"]
+CMD ["npm", "run", "start"]
+

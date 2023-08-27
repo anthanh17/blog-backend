@@ -8,10 +8,9 @@ services:
         restart: unless-stopped
         user: "1000:1000"
         volumes:
-            - ./src:/app/nodejs
+            - .:/app
+            - /app/node_modules
         environment:
-            # - DB_PORT=3306
-            # - MYSQL_URI=mysql://localhost:3306/test 
             - DB_HOST=database-mysql
             - MYSQL_DATABASE=$MYSQL_DBNAME
             - MYSQL_PASSWORD=$MYSQL_PASSWORD
@@ -20,8 +19,6 @@ services:
             - '9000:9000'
         expose:
             - 9000
-    #     # Maybe db start before backend service.
-    #     # command: ./script/wait-for.sh db:3306 -- /home/node/app/node_modules/.bin/nodemon server.js
 
     database-mysql:
         image: mysql:8.0
@@ -36,7 +33,7 @@ services:
             # - MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD
             # - MYSQL_PORT=$MYSQL_PORT
             - MYSQL_ROOT_USERNAME=$MYSQL_USERNAME
-            - MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD
+            # - MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD
         ports:
             - '3306:3306'
         expose:
