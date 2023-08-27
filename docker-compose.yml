@@ -1,21 +1,7 @@
 version: "3.8"
 services:
-    database-mysql:
-        image: mysql:8.0
-        restart: always
-        user: "1000:1000"
-        volumes:
-            - ./data/mysql:/app/data/db/mysql
-        environment:
-            - MYSQL_DATABASE=blog
-            - MYSQL_ROOT_PASSWORD=123456789
-        ports:
-            - '3306:3006'
-        expose:
-            - 3306
-
     backend:
-        container_name: backend
+        container_name: backend-nodejs
         build: 
             context: .
             dockerfile: Dockerfile
@@ -24,10 +10,37 @@ services:
         volumes:
             - ./src:/app/nodejs
         environment:
-            - DB_PORT=3306
+            # - DB_PORT=3306
             # - MYSQL_URI=mysql://localhost:3306/test 
             - DB_HOST=database-mysql
+            - MYSQL_DATABASE=$MYSQL_DBNAME
+            - MYSQL_PASSWORD=$MYSQL_PASSWORD
+            - MYSQL_PORT=$MYSQL_PORT
         ports:
-            - '9090:9090'
+            - '9000:9000'
         expose:
-            - 9090
+            - 9000
+    #     # Maybe db start before backend service.
+    #     # command: ./script/wait-for.sh db:3306 -- /home/node/app/node_modules/.bin/nodemon server.js
+
+    database-mysql:
+        image: mysql:8.0
+        restart: unless-stopped
+        user: "1000:1000"
+        volumes:
+            - dbdata:/var/lib/mysql
+        env_file:
+            - .env
+        environment:
+            # - MYSQL_DATABASE=$MYSQL_NAME
+            # - MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD
+            # - MYSQL_PORT=$MYSQL_PORT
+            - MYSQL_ROOT_USERNAME=$MYSQL_USERNAME
+            - MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD
+        ports:
+            - '3306:3306'
+        expose:
+            - 3306
+
+volumes:
+  dbdata:
