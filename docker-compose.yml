@@ -1,18 +1,40 @@
-version: "2"
+version: "3.8"
 services:
-    docker-app-demo:
-        container_name: backend
-        build: .
+    backend:
+        container_name: backend-nodejs
+        build: 
+            context: .
+            dockerfile: Dockerfile
+        restart: unless-stopped
         user: "1000:1000"
         volumes:
-            - ./src:/app
-        ports:
-            - "3306:3306"
+            - .:/app
+            - /app/node_modules
         environment:
-            - PORT=3306
-            # `mongo` is the `service name` defined in persistent stack
-            - MONGO_URI=mysql://localhost:3306/test 
-        networks:
-            - common
-networks:
-  common:
+            - DB_HOST=database-mysql
+            - MYSQL_DATABASE=$MYSQL_DBNAME
+            - MYSQL_PASSWORD=$MYSQL_PASSWORD
+            - MYSQL_PORT=$MYSQL_PORT
+        ports:
+            - '9000:9000'
+        expose:
+            - 9000
+
+    database-mysql:
+        image: mysql:8.0
+        restart: unless-stopped
+        user: "1000:1000"
+        volumes:
+            - dbdata:/var/lib/mysql
+        env_file:
+            - .env
+        environment:
+            - MYSQL_ROOT_USERNAME=$MYSQL_USERNAME
+            - MYSQL_ROOT_PASSWORD=$MYSQL_PASSWORD
+        ports:
+            - '3306:3306'
+        expose:
+            - 3306
+
+volumes:
+  dbdata:

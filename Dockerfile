@@ -1,6 +1,18 @@
 FROM node:18-alpine
 
-EXPOSE 3000
 WORKDIR /app
 
-CMD ["node", "index.js"]
+COPY package*.json ./
+
+COPY package-lock.json ./
+
+RUN npm install
+
+RUN npm install -g @babel/core @babel/cli
+
+COPY . .
+
+EXPOSE 9000
+
+CMD ["npm", "run", "start"]
+
