@@ -15,10 +15,14 @@ services:
             - MYSQL_DATABASE=$MYSQL_DBNAME
             - MYSQL_PASSWORD=$MYSQL_PASSWORD
             - MYSQL_PORT=$MYSQL_PORT
+        depends_on:
+            - database-mysql
         ports:
             - '9000:9000'
         expose:
             - 9000
+        
+        
 
     database-mysql:
         image: mysql:8.0

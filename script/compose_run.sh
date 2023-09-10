@@ -9,4 +9,9 @@
 # $ script/compose_run.sh yarn add lodash
 
 # docker-compose run --rm docker-backend
+# sudo lsof -i:9000
+# docker-compose -p blog-backend up --build
+# docker-compose down -v
+# npx prisma migrate dev --name init
+
 docker-compose -p blog-backend up --build
