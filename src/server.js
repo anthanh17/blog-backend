@@ -7,6 +7,7 @@ import {userRouter} from "./routes/userRoutes.js"
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 9000;
+const prisma = new PrismaClient();
 
 app.use(express.json())
 app.use(bodyParser.urlencoded({
