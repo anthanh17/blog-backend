@@ -1,9 +1,5 @@
 // import lib
-import {PrismaClient} from '@prisma/client'
-import { response } from 'express';
-
-// variable included from lib.
-const prisma = new PrismaClient()
+import {prisma} from "../server.js";
 
 export const checkDuplicateUsernameOrEmail = async(req) => {
   try {

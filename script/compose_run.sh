@@ -14,4 +14,4 @@
 # docker-compose down -v
 # npx prisma migrate dev --name init
 
-docker-compose -p blog-backend up --build
+docker-compose -p blog-backend up

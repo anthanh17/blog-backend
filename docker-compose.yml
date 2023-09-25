@@ -21,13 +21,11 @@ services:
             - '9000:9000'
         expose:
             - 9000
-        
-        
 
     database-mysql:
-        image: mysql:8.0
+        image: mysql:8.0.28-debian
         restart: unless-stopped
-        user: "1000:1000"
+        # user: "1000:1000"
         volumes:
             - dbdata:/var/lib/mysql
         env_file:
