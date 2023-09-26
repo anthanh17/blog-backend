@@ -1,23 +1,10 @@
-// import lib
-import {prisma} from "../server.js";
+import { findUserByEmailOrUsername } from "../models/userModel.js";
 
-export const checkDuplicateUsernameOrEmail = async(req) => {
+export const canCreateNewUser = async (req) => {
   try {
     // Check email used exits in database or not.
-    const user = await prisma.user.findFirst({
-      where: {
-        OR: [
-          {
-            email: req.body.email
-          },
-          {
-            username: req.body.username,
-          },
-        ]
-      },
-    });
-
-    if (user) {
+    const IsUserExisted = await findUserByEmailOrUsername(req.body.email, req.body.username);
+    if (IsUserExisted) {
       return false;
     }
     return true;
