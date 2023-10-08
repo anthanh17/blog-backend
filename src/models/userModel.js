@@ -37,7 +37,6 @@ export const createNewUser = async(req) => {
       },
     });
 
-
     if (!newUser) {
       return false;
     }

@@ -8,10 +8,12 @@
 # EG:
 # $ script/compose_run.sh yarn add lodash
 
+# namnh2: Just use to remember some commands
 # docker-compose run --rm docker-backend
 # sudo lsof -i:9000
 # docker-compose -p blog-backend up --build
 # docker-compose down -v
 # npx prisma migrate dev --name init
+# docker exec -it "container_id" redis-cli
 
 docker-compose -p blog-backend up

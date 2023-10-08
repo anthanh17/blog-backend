@@ -15,8 +15,12 @@ services:
             - MYSQL_DATABASE=$MYSQL_DBNAME
             - MYSQL_PASSWORD=$MYSQL_PASSWORD
             - MYSQL_PORT=$MYSQL_PORT
+            - REDIS_HOST=$cache
+            - REDIS_PORT=$REDIS_PORT
+            - REDIS_PASSWORD=$REDIS_PASSWORD
         depends_on:
             - database-mysql
+            - cache
         ports:
             - '9000:9000'
         expose:
@@ -38,5 +42,15 @@ services:
         expose:
             - 3306
 
+    cache:
+        image: redis:6.2-alpine
+        restart: unless-stopped
+        ports:
+            - '6379:6379'
+        command: redis-server --save 20 1 --loglevel warning --requirepass 123
+        volumes:
+            - cache:/data
+
 volumes:
   dbdata:
+  cache:
