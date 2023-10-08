@@ -16,4 +16,4 @@
 # npx prisma migrate dev --name init
 # docker exec -it "container_id" redis-cli
 
-docker-compose -p blog-backend up
+docker-compose -p blog-backend up --build

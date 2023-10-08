@@ -5,8 +5,8 @@ import dotenv from 'dotenv'
 import express from 'express';
 import {createClient} from 'redis'
 
-import {postRouter} from './routes/postRoutes.js'
 // Internal lib
+import {postRouter} from './routes/postRoutes.js'
 import {userRouter} from './routes/userRoutes.js'
 
 dotenv.config();
@@ -14,17 +14,17 @@ const app = express();
 const port = process.env.PORT || 9000;
 export const prisma = new PrismaClient();
 
-// const client = await createClient()
-//                    .on('error', err => console.log('Redis Client error', err))
-//                    .connect();
+const client = await createClient()
+                   .on('error', err => console.log('Redis Client error', err))
+                   .connect();
 
-// (async () => {
-//   redisClient = createClient();
+(async () => {
+  redisClient = createClient();
 
-//   redisClient.on('error', (error) => console.error(`Error : ${error}`));
+  redisClient.on('error', (error) => console.error(`Error : ${error}`));
 
-//   await redisClient.connect();
-// })();
+  await redisClient.connect();
+})();
 
 app.use(express.json())
 app.use(bodyParser.urlencoded({extended: true}));
