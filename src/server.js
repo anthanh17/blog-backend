@@ -14,17 +14,11 @@ const app = express();
 const port = process.env.PORT || 9000;
 export const prisma = new PrismaClient();
 
-const client = await createClient()
+const redisClient = await createClient({
+                 url: 'redis://redis-master:6379',
+               })
                    .on('error', err => console.log('Redis Client error', err))
                    .connect();
-
-(async () => {
-  redisClient = createClient();
-
-  redisClient.on('error', (error) => console.error(`Error : ${error}`));
-
-  await redisClient.connect();
-})();
 
 app.use(express.json())
 app.use(bodyParser.urlencoded({extended: true}));

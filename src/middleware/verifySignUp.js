@@ -9,6 +9,6 @@ export const canCreateNewUser = async (req) => {
     }
     return true;
   } catch (error) {
-    return false;
+    console.log("Error when checking user existed or not!!!");
   };
 };

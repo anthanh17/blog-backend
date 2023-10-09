@@ -8,8 +8,8 @@ services:
         restart: unless-stopped
         user: "1000:1000"
         volumes:
-            - .:/app
-            - /app/node_modules
+            - .:/home/node
+            - /home/node/node_modules
         environment:
             - DB_HOST=database-mysql
             - MYSQL_DATABASE=$MYSQL_DBNAME
@@ -20,7 +20,8 @@ services:
             - REDIS_PASSWORD=$REDIS_PASSWORD
         depends_on:
             - database-mysql
-            - cache
+            - redis-master
+            # - redis-slave1
         ports:
             - '9000:9000'
         expose:
@@ -42,15 +43,35 @@ services:
         expose:
             - 3306
 
-    cache:
+    redis-master:
         image: redis:6.2-alpine
         restart: unless-stopped
         ports:
             - '6379:6379'
         command: redis-server --save 20 1 --loglevel warning --requirepass 123
+        environment:
+            - REDIS_REPLICAATION_MODE=master
         volumes:
-            - cache:/data
+            - $PWD/redis-data:/var/lib/redis
+            - $PWD/redis.conf:/usr/local/etc/redis/redis.conf
+            # - cache:/data
+
+    redis-slave1:
+        image: redis:6.2-alpine
+        restart: unless-stopped
+        ports:
+            - '6378:6379'
+        command: redis-server --save 20 1 --loglevel warning --requirepass 123
+        environment:
+            - REDIS_REPLICATION_MODE=slave
+        volumes:
+            - $PWD/redis-data:/var/lib/redis
+            - $PWD/redis.conf:/usr/local/etc/redis/redis.conf
+            # - cache:/data
 
 volumes:
   dbdata:
-  cache:
+#   cache:
+
+networks:
+    default:

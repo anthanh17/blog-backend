@@ -1,22 +1,21 @@
 FROM node:18-alpine
 
-# Note /app belongs to root.
+RUN mkdir -p /home/node/node_modules && chown -R node:node /home/node/
+
 WORKDIR /home/node
 
-COPY package.json ./
+COPY --chown=node:node package.json .
 
-COPY package-lock.json ./
+COPY --chown=node:node package-lock.json .
 
 # generated prisma files
 COPY prisma ./prisma/
-
-# COPY .env ./
 
 RUN npm install 
 
 RUN npm install -g @babel/core @babel/cli
 
-COPY . .
+COPY --chown=node:node . .
 
 EXPOSE 9000
 

@@ -5,7 +5,7 @@ import { createNewUser } from "../models/userModel.js";
 export const signup = async (req, res) => {
   // Save User to Database
   try {
-    if (await canCreateNewUser(req) === true) {
+    if (await canCreateNewUser(req) == true) {
       return await createNewUser(req) ? res.status(200).json("Register successfully")
         : res.status(409).json({ message: "Register failed" });
     } else {
